@@ -3,6 +3,7 @@ package br.com.heisenberg.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,15 +23,20 @@ public class User implements Serializable {
     @Id
     @SequenceGenerator(name = "id", sequenceName = "seq_users", allocationSize = 1)
     @GeneratedValue(generator = "id", strategy = GenerationType.SEQUENCE)
+    @Column(nullable = false)
     private Integer id;
+    @Column(nullable = false)
     private String name;
     @Column(name = "last_name")
     private String lastName;
+    @Column(nullable = false, unique = true)
     private String cpf;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String email;
     @ManyToOne()
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", foreignKey = @ForeignKey(name = "FK_COMPANY"))
     private Company company;
 
     public Company getCompany() {

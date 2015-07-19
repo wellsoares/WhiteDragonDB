@@ -1,11 +1,13 @@
 package br.com.heisenberg.model;
 
-import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -17,12 +19,15 @@ import javax.persistence.Table;
 public class Company implements Serializable {
 
     @Id
-    private Integer id;
-    @Column(name = "company_name")
-    private String companyName;
-    @Column(name = "commercial_name")
-    private String commercialName;
     @Column(nullable = false)
+    @SequenceGenerator(name = "id", sequenceName = "seq_company", allocationSize = 1)
+    @GeneratedValue(generator = "id", strategy = GenerationType.SEQUENCE)
+    private Integer id;
+    @Column(name = "company_name", nullable = false)
+    private String companyName;
+    @Column(name = "commercial_name", nullable = false)
+    private String commercialName;
+    @Column(nullable = false, unique = true)
     private String cnpj;
     private String profile;
     private String phone;

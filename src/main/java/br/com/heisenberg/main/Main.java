@@ -1,7 +1,6 @@
 package br.com.heisenberg.main;
 
 import br.com.heisenberg.conf.HibernateUtil;
-import br.com.heisenberg.model.Company;
 import br.com.heisenberg.model.User;
 import java.util.List;
 import org.hibernate.Query;
@@ -20,39 +19,40 @@ public class Main {
         insertUser();
         findAllUser();
     }
-    
+
     public static void insertUser() {
         User user = new User();
-        Company c = new Company();
-        
-        c.setId(1);
-        
+
         user.setId(1);
         user.setName("Anderson");
         user.setLastName("Sant Ana");
         user.setPassword("12345");
         user.setCpf("38971455888");
-        
-        user.setCompany(c);
-        
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        user.setEmail("WEWE@SSS");
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
+
         session.save(user);
         session.getTransaction().commit();
+
+        session.close();
+
     }
-    
+
     public static void findAllUser() {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
+
         Query hql = session.createQuery("FROM User");
-        
+
         List<User> users = hql.list();
-        
+
         session.getTransaction().commit();
-        
+
         System.out.println(users);
-        
+
+        session.close();
+
     }
 }
